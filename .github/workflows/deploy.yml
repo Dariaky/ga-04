@@ -11,17 +11,19 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest # will still run on this machine, but it will host the image
-    container:  # they will be run in the env defined by this container, gh makes sure other steps like checkout work correctly in the container
-      image: node:16
+#    container:  # they will be run in the env defined by this container, gh makes sure other steps like checkout work correctly in the container
+#      image: node:16
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      MONGODB_CLUSTER_ADDRESS: my-mongodb
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
       PORT: 8080
     services:
       my-mongodb: # This is a test db that only runs on service container as long as workflow is running
         image: mongo
+        ports:
+          - 27017:27017
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
